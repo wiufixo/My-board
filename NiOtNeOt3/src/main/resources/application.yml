@@ -9,6 +9,12 @@ spring:
 #    view:
 #      prefix: /WEB-INF/views/
 #      suffix: .jsp
+
+#Gson HTTP Message Converter 설정
+#spring.http.converters.preferred-json-mapper=gson #Spring Boot Version < 2.3.0 RELEASE
+#  mvc:
+#    converters:
+#      preferred-json-mapper: gson  #Spring Boot Version >= 2.3.0 RELEASE  
       
   jpa:
     open-in-view: true
@@ -27,7 +33,6 @@ spring:
       fail-on-empty-beans: false
       
 ---
-
 sist:
   key: sist1234
       
