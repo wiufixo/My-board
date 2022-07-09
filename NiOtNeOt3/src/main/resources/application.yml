@@ -1,21 +1,9 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://niotneot.cnodnbvune1u.us-east-1.rds.amazonaws.com:3306/mjko?serverTimezone=Asia/Seoul
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://niotneot.cnodnbvune1u.us-east-1.rds.amazonaws.com:3306/mjko?serverTimezone=Asia/Seoul
     username: manager
     password: manager33
-    
-#  mvc:
-#    view:
-#      prefix: /WEB-INF/views/
-#      suffix: .jsp
-
-#Gson HTTP Message Converter 설정
-#spring.http.converters.preferred-json-mapper=gson #Spring Boot Version < 2.3.0 RELEASE
-#  mvc:
-#    converters:
-#      preferred-json-mapper: gson  #Spring Boot Version >= 2.3.0 RELEASE  
-      
   jpa:
     open-in-view: true
     hibernate:
@@ -27,10 +15,38 @@ spring:
     properties:
       hibernate.format_sql: true
 #      hibernate.hbm2ddl.auto: update
+  
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
 
-  jackson:
-    serialization:
-      fail-on-empty-beans: false
+#Gson HTTP Message Converter 설정
+#spring.http.converters.preferred-json-mapper=gson #Spring Boot Version < 2.3.0 RELEASE
+#  mvc:
+#    converters:
+#      preferred-json-mapper: gson  #Spring Boot Version >= 2.3.0 RELEASE  
+      
+  
+
+#  jackson:
+#    serialization:
+#      fail-on-empty-beans: false
+
+mybatis:
+  type-aliases-package: com.sist.nono.dto, com.sist.nono.paging # 매핑할 모델의 패키지 경로 (mybatis 매핑 type을 짧게 쓰기 위한 설정)
+  mapper-locations: classpath:mappers/*.xml # mapper.xml 위치 명시
+
+
+
+logging:
+  level:
+   org:
+     hibernate:
+       type:
+         descriptor:
+           sql:
+             BasicBinder: trace
       
 ---
 sist:

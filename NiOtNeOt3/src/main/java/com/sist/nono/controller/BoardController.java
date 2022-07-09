@@ -1,6 +1,7 @@
 package com.sist.nono.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,12 +14,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sist.nono.exception.CustomException;
+import com.sist.nono.exception.ErrorCode;
 import com.sist.nono.model.Board;
 import com.sist.nono.model.User;
+import com.sist.nono.paging.CommonParams;
 import com.sist.nono.service.BoardCommentService;
 import com.sist.nono.service.BoardService;
 import com.sist.nono.service.UserService;
@@ -47,20 +52,22 @@ public class BoardController {
 	
 	
 	@GetMapping("/detail/{b_no}")
-	public String detail(Model model, @PathVariable int b_no) {
+	public String detail(Model model, @PathVariable int b_no, CommonParams params) {
 		model.addAttribute("board", boardService.getBoard(b_no));
 		model.addAttribute("comments", commentService.findAll(b_no));
+		model.addAttribute("params", params);
 		return "board/detail";
 	}
 	
 	@GetMapping("/form")
-	public String form(Model model, @RequestParam(defaultValue = "0") int b_no) {
+	public String form(Model model, @RequestParam(defaultValue = "0") int b_no, CommonParams params) {
 		if(b_no==0) {
 			model.addAttribute("board", new Board());
 			
 		}else {
 			model.addAttribute("board", boardService.getBoard(b_no));
 		}
+		model.addAttribute("params", params);
 		return "board/form";
 	}
 	
@@ -84,10 +91,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/list")
-	public String list(Model model, @PageableDefault(page = 0,size = 20) Pageable pageable) {
-		Page<Board> p = boardService.findAll(pageable);
-		model.addAttribute("p",p);
-		model.addAttribute("boards", p.getContent());
+	public String list(Model model, CommonParams params) {
+		System.out.println("보드컨트롤러옴");
+//		Page<Board> p = boardService.findAll(pageable);
+		model.addAttribute("response", boardService.findAll(params));
 		return "board/list";
 	}
 	

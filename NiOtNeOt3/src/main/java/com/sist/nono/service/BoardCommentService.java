@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sist.nono.exception.CustomException;
+import com.sist.nono.exception.ErrorCode;
 import com.sist.nono.model.Board;
 import com.sist.nono.model.BoardComment;
 import com.sist.nono.model.User;
@@ -31,7 +33,7 @@ public class BoardCommentService {
 	}
 	
 	@Transactional
-	public void update(BoardComment r_boardComment) {
+	public int update(BoardComment r_boardComment) {
 		
 		/*
 		 * BoardComment boardComment =
@@ -39,21 +41,21 @@ public class BoardCommentService {
 		 * return new IllegalArgumentException("댓글 찾기 실패: 글번호를 찾을 수 없습니다!"); }); //영속화
 		 * 완료
 		 */		
-		boardCommentRepository.update(r_boardComment.getBc_content(), r_boardComment.getBc_no());
+		return boardCommentRepository.update(r_boardComment.getBc_content(), r_boardComment.getBc_no());
 	}
 	
 	@Transactional(readOnly = true)
 	public BoardComment getComment(int bc_no) {
-		return boardCommentRepository.findById(bc_no).get();
+		return boardCommentRepository.findById(bc_no).orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 	}
 	
 	@Transactional
 	public void save(String bc_content, int b_no) {
 		BoardComment boardComment = new BoardComment();
 		boardComment.setBc_content(bc_content);
-		User user = userRepository.findById(4).get();
+		User user = userRepository.findById(4).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 		boardComment.setUser(user);
-		Board board = boardRepository.findById(b_no).get();
+		Board board = boardRepository.findById(b_no).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 		boardComment.setBoard(board);
 		boardCommentRepository.save(boardComment);
 	}

@@ -42,6 +42,9 @@
 
 	<div class="container">
 		<div class="box-content">
+		<input type="hidden" id="page" th:value="${params.page}">
+		<input type="hidden" id="searchType" th:value="${params.searchType}">
+		<input type="hidden" id="keyword" th:value="${params.keyword}">
 			<form th:object="${board}">
 				<input type="hidden" id="board_no" th:value="*{b_no}">
 				<div class="form-group">
@@ -65,9 +68,10 @@
 					<p class="form-control" th:text="*{b_hit}"></p>
 				</div>
 				<div class="text-right my-btn">
-					<a class="btn btn-primary" th:href="@{/board/form(b_no=*{b_no})}">글수정</a>
+					<a class="btn btn-primary" th:href="@{/board/form(b_no=*{b_no},page=${params.page},searchType=${params.searchType},keyword=${params.keyword})}">글수정</a>
 					<button class="btn btn-warning" id="btn-delete" type="button">글삭제</button>
-					<a class="btn btn-secondary" th:href="@{/board/list}">목록으로</a>
+					<!-- <a class="btn btn-secondary" th:href="@{/board/list}">목록으로</a> -->
+					<a class="btn btn-secondary" th:href="@{/board/list(page=${params.page},searchType=${params.searchType},keyword=${params.keyword})}">목록으로</a>
 				</div>
 			</form>
 		</div>
@@ -195,14 +199,18 @@
 		
 		
 		$("#btn-delete").on("click", function(){
-			var b_no = $("#b_no").val();
+			var b_no = $("#board_no").val();
+			var page = $("#page").val();
+			var searchType = $("#searchType").val();
+			var keyword = $("#keyword").val();
 			if(re = confirm(`${b_no}번 게시물을 정말 삭제하시겠습니까?`)){
 				$.ajax({
 					url:`/board/delete/${b_no}`,
+/* 					url:`/board/delete/${b_no}`, */
 					type:"delete",
 					success:function(){
 						alert("글삭제를 성공했습니다!");
-						location.href = "/board/list";
+						location.href = `/board/list?page=${page}&searchType=${searchType}&keyword=${keyword}`;
 					}
 				})
 			}

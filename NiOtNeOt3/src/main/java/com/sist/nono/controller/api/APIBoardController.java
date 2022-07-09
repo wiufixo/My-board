@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.util.StringUtils;
 
+import com.sist.nono.exception.CustomException;
+import com.sist.nono.exception.ErrorCode;
 import com.sist.nono.model.Board;
+import com.sist.nono.model.User;
 import com.sist.nono.repository.BoardRepository;
+import com.sist.nono.service.BoardService;
 
 @RestController
 @RequestMapping(("/api"))
@@ -26,7 +30,8 @@ class APIBoardController {
 
 	@Autowired
 	private BoardRepository repository;
-
+	
+	
 	@GetMapping("/pageable")
 	Page<Board> pageableTest(@PageableDefault(page = 0,size = 5) Pageable pageable) {
 		return repository.findAll(pageable);
@@ -53,7 +58,7 @@ class APIBoardController {
 	@GetMapping("/boards/{b_no}")
 	Board one(@PathVariable int b_no) {
 
-		return repository.findById(b_no).get();
+		return repository.findById(b_no).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 	}
 
 	@PutMapping("/boards/{id}")

@@ -52,9 +52,8 @@ public class BoardCommentController {
 		return "등록성공";
 	}
 	@PutMapping("/update")
-	public String update(@RequestBody BoardComment comment) {
-		commentService.update(comment); 
-		return "수정성공";
+	public int update(@RequestBody BoardComment comment) {
+		return commentService.update(comment);
 	}
 	
 	@DeleteMapping("/delete/{bc_no}")

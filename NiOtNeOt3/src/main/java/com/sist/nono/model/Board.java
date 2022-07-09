@@ -28,6 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -37,11 +38,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "board")
 @Entity
 public class Board {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다 ===> auto_increment
 	private int b_no;
-	
 	@ManyToOne(fetch = FetchType.EAGER) //기본패치전략, 반드시 들고와야하는 칼럼
 	@JoinColumn(name="cu_no")
 	private User user; // db에서는 안되지만 orm에서는 object를 사용할수있다
@@ -75,5 +74,13 @@ public class Board {
 	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL) //테이블의 칼럼으로 생성하지 말아주세요, 반드시 갖고와주세요
 	@JsonIgnoreProperties({"board"})
 	private List<BoardFile> boardFile;
+	
+	/**
+     * 조회 수 증가
+     */
+    public void increaseHit() {
+        this.b_hit++;
+    }
+	
 	
 }
