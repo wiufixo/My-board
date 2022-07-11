@@ -9,12 +9,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sist.nono.auth.PrincipalDetail;
 import com.sist.nono.dao.BoardDao;
 import com.sist.nono.dto.BoardDto;
 import com.sist.nono.dto.FileUploadDTO;
@@ -29,7 +31,10 @@ import com.sist.nono.repository.BoardFileRepository;
 import com.sist.nono.repository.BoardRepository;
 import com.sist.nono.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class BoardService {
 
 	@Autowired
@@ -84,8 +89,9 @@ public class BoardService {
 
 
 	@Transactional
-	public void save(Board board, List<MultipartFile> files) {
-		board.setUser(userRepository.findById(2).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)));
+	public void save(Board board, List<MultipartFile> files, User user) {
+	//	board.setUser(userRepository.findById(2).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)));
+		board.setUser(user);
 		Board b = boardRepository.save(board);
 		List<BoardFile> fileList = fu.uploadFiles(files, b.getB_no()); //공파일을 제외한 multipartfile 리스트 반환
 		if (CollectionUtils.isEmpty(fileList) == false) {
@@ -118,7 +124,9 @@ public class BoardService {
 		if(params.getSearchType() != null) {
 			if(params.getSearchType().equals("bc")) {
 				if (dao.countComment(params) < 1) {
-					return Collections.emptyMap();
+					response.put("params", params);
+					response.put("list", Collections.emptyList());
+					return response;
 				}
 				int count = dao.countComment(params);
 				Pagination pagination = new Pagination(count, params);
@@ -142,7 +150,9 @@ public class BoardService {
 		
 		// 등록된 게시글이 없는 경우, 로직 종료
 		if (count < 1) {
-			return Collections.emptyMap();
+			response.put("params", params);
+			response.put("list", Collections.emptyList());
+			return response;
 		}
 		// 페이지네이션 정보 계산
 		Pagination pagination = new Pagination(count, params);

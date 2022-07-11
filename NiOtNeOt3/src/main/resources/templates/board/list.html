@@ -24,7 +24,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:if="${#lists.size(response.list)<1}">
+				<tr th:unless="${#lists.size(response.list)>0}">
 					<td colspan="5">등록된 게시글이 없습니다.</td>
 				</tr>
 				<tr th:if="${#lists.size(response.list)>0}" th:each="board : ${response.list}">
@@ -55,7 +55,7 @@
 		<!-- th:href="@{/board/list(page=${i},searchTest=${param.searchText})}" -->
 		<form id="search-form" class="row g-3 d-flex justify-content-center">
 			<select id="searchType" class="form-select" style="height: 38px; width: 130px; margin-right: 10px;">
-				<option th:selected="${response.params.searchType} == ''" value="">전체</option>
+				<option th:selected="${response.params.searchType} == ''" value="all">전체</option>
 				<option th:selected="${response.params.searchType} == 'tc'" value="tc">제목+내용</option>
 				<option th:selected="${response.params.searchType} == 'title'" value="title">제목만</option>
 				<option th:selected="${response.params.searchType} == 'content'" value="content">내용만</option>
@@ -98,10 +98,8 @@
 			 * 게시글 리스트 조회
 			 */
 			function findAll(page) {
-				const searchType = $("#searchType").val()
-				console.log(searchType)
-				const keyword = $("#keyword").val()
-				console.log(keyword)
+				const searchType = $("#searchType").val();
+				const keyword = $("#keyword").val();
 				const form = document.getElementById('search-form');
 				const data = {
 					  page: page, 
@@ -116,6 +114,7 @@
 					contentType:"application/json; charset=utf-8",
 					dataType:"html",
 					success:function(list){
+						console.log(`list?page=1&searchType=${searchType}&keyword=${keyword}`);
 						location.href = `list?page=1&searchType=${searchType}&keyword=${keyword}`;
 						//$("#searchType").val("${param.sb_cate}").attr("selected","selected");
 					},

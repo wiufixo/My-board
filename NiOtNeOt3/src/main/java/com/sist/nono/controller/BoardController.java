@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sist.nono.auth.PrincipalDetail;
 import com.sist.nono.model.Board;
 import com.sist.nono.model.BoardFile;
 import com.sist.nono.paging.CommonParams;
@@ -96,12 +98,13 @@ public class BoardController {
 
 	
 	@GetMapping("/detail/{b_no}")
-	public String detail(Model model, @PathVariable int b_no, CommonParams params) {
+	public String detail(Model model, @PathVariable int b_no, CommonParams params, @AuthenticationPrincipal PrincipalDetail principal) {
 		boardService.increaseHit(b_no);
 		model.addAttribute("board", boardService.getBoard(b_no));
 		model.addAttribute("comments", commentService.findAll(b_no));
 		model.addAttribute("params", params);
 		model.addAttribute("fileList", fileService.findAllByBoard(b_no));
+		model.addAttribute("principal",principal);
 		return "board/detail";
 	}
 
@@ -122,7 +125,7 @@ public class BoardController {
 
 
 	@PostMapping("/form")
-	public String formSubmit(Board board, @RequestParam(required = false) List<MultipartFile> files, @RequestParam(required = false) List<Integer> fileNo, BindingResult bindingResult) {
+	public String formSubmit(Board board, @RequestParam(required = false) List<MultipartFile> files, @RequestParam(required = false) List<Integer> fileNo, @AuthenticationPrincipal PrincipalDetail principal, BindingResult bindingResult) {
 
 		/*
 		 * boardValidator.validate(board, bindingResult); //validator 객체로 유효성 검사
@@ -150,8 +153,8 @@ public class BoardController {
 				log.debug("content type: "+files.get(i).getContentType());
 				log.debug("================== file   END ==================");
 			}
-
-			boardService.save(board, files);
+			log.debug(principal.getUsername());
+			boardService.save(board, files, principal.getUser());
 
 		} else { // 글 수정
 			for(int i=0; i<files.size(); i++) {
@@ -162,7 +165,6 @@ public class BoardController {
 				log.debug("content type: "+files.get(i).getContentType());
 				log.debug("================== file   END ==================");
 			}
-
 			boardService.update(board, files, fileNo);
 		}
 
@@ -172,6 +174,7 @@ public class BoardController {
 	@GetMapping("/list")
 	public String list(Model model, CommonParams params) {
 		model.addAttribute("response", boardService.findAll(params));
+		System.out.println("컨트롤러옴");
 		return "board/list";
 	}
 

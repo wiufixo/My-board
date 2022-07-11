@@ -50,10 +50,10 @@ public class BoardCommentService {
 	}
 	
 	@Transactional
-	public void save(String bc_content, int b_no) {
+	public void save(String bc_content, int b_no, User user) {
 		BoardComment boardComment = new BoardComment();
 		boardComment.setBc_content(bc_content);
-		User user = userRepository.findById(4).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+//		User user = userRepository.findById(4).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 		boardComment.setUser(user);
 		Board board = boardRepository.findById(b_no).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 		boardComment.setBoard(board);

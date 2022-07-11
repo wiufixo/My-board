@@ -7,7 +7,6 @@
 
 	<div th:replace="fragments/common :: header('list')"></div>
 
-
 	<div class="container">
 
 		<form th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data">
@@ -59,23 +58,20 @@
 
 	<div th:replace="fragments/common :: js"></div>
 
-	<script type="text/javascript">
+	<script th:inline="javascript"> 
 	
-	function addFile() {   
-		var str = `
-			<div class="file-group" id="file-list">
-			<input type="file" name="files">
-			<button type="button" class="btn-remove">삭제</button>
-			</div>
-		`;     
-		$("#file-add").append(str);        
-	}     
-	
-	
-	$(document).on("click",".btn-remove", function(){
-		console.log("삭제버튼")
-		$(this).parent().remove();
-	})
+		function addFile() {   
+			const str = `<div class="file-group" id="file-list">
+							<input type="file" name="files">
+							<button type="button" class="btn-remove">삭제</button>
+						</div>`;     
+			$("#file-add").append(str);        
+		};  
+		
+		
+		$(document).on("click",".btn-remove", function(){
+			$(this).parent().remove();
+		});
 	
 		
 	</script>

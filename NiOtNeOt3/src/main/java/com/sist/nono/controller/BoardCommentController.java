@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.databind.util.JSONWrappedObject;
+import com.sist.nono.auth.PrincipalDetail;
 import com.sist.nono.model.Board;
 import com.sist.nono.model.BoardComment;
 import com.sist.nono.model.User;
@@ -41,8 +43,8 @@ public class BoardCommentController {
 	}
 	
 	@PostMapping("/save/{b_no}")
-	public String save(String bc_content, @PathVariable int b_no) {
-		commentService.save(bc_content, b_no);
+	public String save(String bc_content, @PathVariable int b_no,  @AuthenticationPrincipal PrincipalDetail principal) {
+		commentService.save(bc_content, b_no, principal.getUser());
 		return "등록성공";
 	}
 	@PutMapping("/update")

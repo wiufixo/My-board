@@ -64,7 +64,7 @@
 			b.cu_no = c.cu_no
 			<if test="keyword != null and keyword.equals('') == false">
 				<choose>
-					<when test="searchType == null or searchType.equals('')">
+					<when test="searchType.equals('all')">
 						AND (
 							b.b_title LIKE CONCAT('%', #{keyword}, '%')
 						OR
