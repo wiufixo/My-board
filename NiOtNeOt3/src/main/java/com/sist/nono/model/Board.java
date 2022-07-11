@@ -30,8 +30,10 @@ import lombok.Builder.Default;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -71,7 +73,7 @@ public class Board {
 	@OrderBy("bc_no desc")
 	private List<BoardComment> boardComment;
 	
-	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL) //테이블의 칼럼으로 생성하지 말아주세요, 반드시 갖고와주세요
+	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) //테이블의 칼럼으로 생성하지 말아주세요, 반드시 갖고와주세요
 	@JsonIgnoreProperties({"board"})
 	private List<BoardFile> boardFile;
 	
@@ -81,6 +83,11 @@ public class Board {
     public void increaseHit() {
         this.b_hit++;
     }
+
+	@Override
+	public String toString() {
+		return "b_no:"+b_no+" / b_title:"+b_title+" / b_content:"+b_content+" / b_created:"+b_created+" / b_update:"+b_update+" / b_hit:"+b_hit+" / isFileChanged:"+isFileChanged;
+	}
 	
 	
 }

@@ -24,9 +24,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 //@DynamicInsert ===> insert시에 null값의 칼럼은 제외하고 insert해준다 ===> enum을 활용하여 더 용이하게 프로그래밍한다
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -56,4 +58,10 @@ public class User {
 	
 	@CreationTimestamp //비워놔도 자동으로 등록한 현재시간을 입력해준다
 	private Timestamp cu_created;
+	
+	@Override
+	public String toString() {
+		return "cu_no:"+cu_no+" / cu_id:"+cu_id+" / cu_pwd:"+cu_pwd+" / cu_email:"+cu_email+" / role:"+role+" / cu_created:"+cu_created;
+	}
+	
 }

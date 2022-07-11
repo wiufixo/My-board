@@ -24,8 +24,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -62,5 +64,10 @@ public class BoardComment {
 	private Timestamp bc_created;
 	
 	private Date bc_updated;
+	
+	@Override
+	public String toString() {
+		return "bc_no:"+bc_no+" / bc_content:"+bc_content+" / bc_created:"+bc_created+" / bc_updated:"+bc_updated;
+	}
 	
 }

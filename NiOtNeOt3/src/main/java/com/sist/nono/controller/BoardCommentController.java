@@ -31,7 +31,6 @@ import com.sist.nono.model.BoardComment;
 import com.sist.nono.model.User;
 import com.sist.nono.service.BoardCommentService;
 import com.sist.nono.service.BoardService;
-import com.sist.nono.service.UserService;
 
 @RestController
 @RequestMapping("/boardComment")

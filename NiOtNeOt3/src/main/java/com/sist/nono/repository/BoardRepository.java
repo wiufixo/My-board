@@ -17,5 +17,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 	@Query(value = "select * from board order by b_no desc", nativeQuery = true)
 	public List<Board> selectAll();
 	
+	@Modifying
+	@Query(value = "update board set b_hit=b_hit+1 where b_no=?1", nativeQuery = true)
+	public void increaseHit(int b_no);
 	
 }
