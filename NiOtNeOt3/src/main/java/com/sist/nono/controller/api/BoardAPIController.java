@@ -26,7 +26,7 @@ import com.sist.nono.service.BoardService;
 
 @RestController
 @RequestMapping(("/api"))
-class APIBoardController {
+class BoardAPIController {
 
 	@Autowired
 	private BoardRepository repository;

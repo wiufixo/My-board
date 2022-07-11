@@ -21,11 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.databind.util.JSONWrappedObject;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.sist.nono.adapter.GsonLocalDateTimeAdapter;
 import com.sist.nono.model.Board;
 import com.sist.nono.model.BoardComment;
 import com.sist.nono.model.User;
