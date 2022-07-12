@@ -5,12 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.sist.nono.auth.PrincipalDetail;
 import com.sist.nono.model.User;
 import com.sist.nono.service.UserService;
 
@@ -55,5 +58,22 @@ public class HomeController {
 		//세션등록
 		Authentication authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(user.getCu_id(), user.getCu_pwd()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-	}  
+	}
+	
+	//회원탈퇴
+	@GetMapping("/resign")
+	public String resign(Model model, @AuthenticationPrincipal PrincipalDetail principal) {
+		model.addAttribute("principal", principal);
+		System.out.println(principal.getPassword());
+		System.out.println(principal.getUsername());
+		System.out.println(principal.getUser().getCu_id());
+		System.out.println(principal.getUser().getCu_pwd());
+		return "account/resign";
+	}
+	//회원탈퇴
+	@PostMapping("/user/delete")
+	public String delete(User user) {
+		userService.resign(user);
+		return "redirect:/";
+	}
 }

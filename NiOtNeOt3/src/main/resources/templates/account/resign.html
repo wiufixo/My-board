@@ -11,30 +11,27 @@
 	<link rel="stylesheet" th:href="@{/css/signin.css}">
 	<!-- <link rel="stylesheet" th:href="@{/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css}" /> -->
 	
-	<title th:text="user-update"></title>
+	<title th:text="login"></title>
 </head>
 
 <body class="text-center" style="padding-top: 110px;">
-	<div th:replace="fragments/common :: header('update')"></div>
+	<div th:replace="fragments/common :: header('login')"></div>
 	<main class="form-signin w-100 m-auto">
-		<form th:action="@{/account/update}" method="post">
-			
-			<h1 class="h3 mb-3 fw-normal">Update</h1>
-			
-			<div class="form-group">
-				<input type="text" class="form-control" name="cu_id" id="cu_id" placeholder="Id">
+		<form th:action="@{/user/delete}" method="post">
+			<h1 class="h3 mb-3 fw-normal">Please check your password</h1>
+			<h6 class="h6 mb-3 fw-normal"><a th:href="@{/}">홈으로</a></h6>
+			<div class="form-floating">
+				<input type="text" class="form-control" name="cu_id" id="cu_id" th:value="${principal.user.cu_id}" readonly="readonly">
 			</div>
-			<div class="form-group">
+			<div class="form-floating">
 				<input type="password" class="form-control" name="cu_pwd" id="cu_pwd" placeholder="Password">
-			</div>
-			<div class="form-group">
-				<input type="email" class="form-control" name="cu_email" id="cu_email" placeholder="Email">
 			</div>
 
 			<button type="submit" class="w-100 btn btn-lg btn-primary" style="background: #4DE0D0; border-color: #4DE0D0;">Sign in</button>
 			<p class="mt-5 mb-3 text-muted">&copy; by dd33</p>
 		</form>
 	</main>
+
 
 
 </body>

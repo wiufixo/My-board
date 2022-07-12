@@ -12,4 +12,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Query(value = "select * from user where cu_id=?1", nativeQuery = true)
 	Optional<User> findByCu_id(String cu_id);
+	
+	@Query(value = "select count(*) from user where cu_id=?1 and cu_pwd=?2", nativeQuery = true)
+	int findUser(String cu_id, String cu_pwd);
 }

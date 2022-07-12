@@ -120,10 +120,12 @@ public class BoardService {
 	public Map<String, Object> findAll(CommonParams params) {
 
 		Map<String, Object> response = new HashMap<>();
-
+		//response.params.pagination.totalRecordCount
 		if(params.getSearchType() != null) {
 			if(params.getSearchType().equals("bc")) {
 				if (dao.countComment(params) < 1) {
+					Pagination pagination = new Pagination(0, params);
+					params.setPagination(pagination);
 					response.put("params", params);
 					response.put("list", Collections.emptyList());
 					return response;
@@ -150,6 +152,8 @@ public class BoardService {
 		
 		// 등록된 게시글이 없는 경우, 로직 종료
 		if (count < 1) {
+			Pagination pagination = new Pagination(0, params);
+			params.setPagination(pagination);
 			response.put("params", params);
 			response.put("list", Collections.emptyList());
 			return response;

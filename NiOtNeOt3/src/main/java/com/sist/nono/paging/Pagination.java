@@ -18,6 +18,15 @@ public class Pagination {
             this.totalRecordCount = totalRecordCount;
             this.calculation(params);
         }
+        if(totalRecordCount==0) {
+        	this.totalRecordCount = totalRecordCount;
+        	this.totalPageCount = 1;
+        	this.startPage = 1;
+        	this.endPage = 1;
+        	this.limitStart = 0;
+        	this.existPrevPage = false;
+        	this.existNextPage = false;
+        }
     }
 
     private void calculation(CommonParams params) {

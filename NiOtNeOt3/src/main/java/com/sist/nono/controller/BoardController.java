@@ -174,7 +174,6 @@ public class BoardController {
 	@GetMapping("/list")
 	public String list(Model model, CommonParams params) {
 		model.addAttribute("response", boardService.findAll(params));
-		System.out.println("컨트롤러옴");
 		return "board/list";
 	}
 
