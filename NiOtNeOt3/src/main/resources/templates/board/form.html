@@ -11,7 +11,8 @@
 
 		<form th:action="@{/board/form}" th:object="${board}" method="post" enctype="multipart/form-data">
 
-
+			<input type="hidden" id="no" th:field="*{b_no}">
+			
 			<div class="form-group">
 				<label for="title">제목</label> <input type="text" class="form-control" id="title" th:field="*{b_title}" th:classappend="${#fields.hasErrors('b_title')} ? 'is-invalid'" placeholder="title">
 				<div id="validationServer03Feedback" class="invalid-feedback">제목을 입력해주세요.</div>
