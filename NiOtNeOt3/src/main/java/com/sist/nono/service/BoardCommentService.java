@@ -55,8 +55,11 @@ public class BoardCommentService {
 		boardComment.setBc_content(bc_content);
 //		User user = userRepository.findById(4).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 		boardComment.setUser(user);
+		System.out.println(user);
 		Board board = boardRepository.findById(b_no).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 		boardComment.setBoard(board);
+		System.out.println(board);
+		System.out.println(boardComment);
 		boardCommentRepository.save(boardComment);
 	}
 	

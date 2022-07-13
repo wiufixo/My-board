@@ -155,6 +155,7 @@ public class BoardController {
 			}
 			log.debug(principal.getUsername());
 			boardService.save(board, files, principal.getUser());
+			return "redirect:/board/list";
 
 		} else { // 글 수정
 			for(int i=0; i<files.size(); i++) {
@@ -166,9 +167,14 @@ public class BoardController {
 				log.debug("================== file   END ==================");
 			}
 			boardService.update(board, files, fileNo);
+			
+			model.addAttribute("response", boardService.findAll(params));
+			return "board/list";
+			
 		}
 
-		return "redirect:/board/list";
+		
+//		return "redirect:/board/list";
 	}
 
 	@GetMapping("/list")

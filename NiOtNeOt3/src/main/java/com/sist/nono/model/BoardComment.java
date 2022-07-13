@@ -18,6 +18,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -26,9 +27,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString(exclude = {"user","board"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -50,7 +53,6 @@ public class BoardComment {
 	private Board board;
 	
 	@Column(nullable = false, length = 200)
-	@NotEmpty(message = "*내용이 없습니다.")
 	private String bc_content;
 	
 //	@Column(nullable = false)
@@ -62,14 +64,11 @@ public class BoardComment {
 //	@ColumnDefault("0")
 //	private int bc_level;
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss") //ajax 날짜로 올때 변환식
 	@CreationTimestamp
 	private Timestamp bc_created;
 	
 	private Date bc_updated;
 	
-	@Override
-	public String toString() {
-		return "bc_no:"+bc_no+" / bc_content:"+bc_content+" / bc_created:"+bc_created+" / bc_updated:"+bc_updated;
-	}
 	
 }
