@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,6 +50,7 @@ public class BoardComment {
 	private Board board;
 	
 	@Column(nullable = false, length = 200)
+	@NotEmpty(message = "*내용이 없습니다.")
 	private String bc_content;
 	
 //	@Column(nullable = false)
