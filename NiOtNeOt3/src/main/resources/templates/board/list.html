@@ -20,7 +20,8 @@
 					<input type="hidden" name="searchType" th:value="${response.params.searchType}"> 
 					<input type="hidden" name="keyword" th:value="${response.params.keyword}">
 					<div class="form-group" style="margin-bottom: 5px">
-						<label> 한페이지당&nbsp;&nbsp; <select id="recordPerPageSelect" name="recordPerPage" class="form-control">
+						<label> 한페이지당&nbsp;&nbsp; 
+						<select id="recordPerPageSelect" name="recordPerPage" class="form-control">
 								<option th:selected="${response.params.recordPerPage} == '5'" th:value="5">5</option>
 								<option th:selected="${response.params.recordPerPage} == '10'" th:value="10">10</option>
 								<option th:selected="${response.params.recordPerPage} == '15'" th:value="15">15</option>

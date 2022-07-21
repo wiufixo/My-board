@@ -55,6 +55,7 @@ public class BoardFileService {
 	
 	@Transactional
 	public int deleteFile(int b_no) {
+		
 		return repository.deleteFile(b_no);
 	}
 	@Transactional
